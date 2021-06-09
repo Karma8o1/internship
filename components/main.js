@@ -1,42 +1,74 @@
 import React from 'react';
-import { StyleSheet, Text, TextInput, TouchableOpacity, View, Image } from 'react-native';
+import { StyleSheet, Text, TextInput, TouchableOpacity, View, Image, Alert } from 'react-native';
 import 'react-native-gesture-handler';
+import {Formik} from 'formik'
 
-export default function Main () {
+export default function Main ({navigation}) {
+
 return (
-<View style={styles.containers}>
-<View style={styles.backup}>
+      <View style={styles.containers}>
+      <View style={styles.backup}>
           <View style={styles.header}>
           <Text style={styles.title}>Sign Up</Text>
           <Text style={styles.desc}>Create New Account</Text>
         </View>
         </View>
       <View style={styles.contain}>
+            
             <View style={styles.inneritems}>
+            <Formik
+            initialValues={{
+                  name:'',
+                  email:'',
+                  pass:'',
+            }}
+            onSubmit={(values)=>{
+                  if(values.name === 'abc' && values.email == 'abc' && values.pass == 'abc')
+                  {
+                        navigation.navigate('Contacts');
+                        console.log('worked')
+                  }
+                  else
+                  {
+                        console.log("didn't work");
+                  }
+            }}>
+
+            {(props)=>(
+                  <>
                   <View style={styles.inputs}>
                   <Text style={styles.titles}>
                   Fullname
                   </Text>
-                  <TextInput style={styles.input} placeholder={'Your Name'}/>
+                  
+                  <TextInput style={styles.input} placeholder={'Your Name'}
+                  onChangeText={props.handleChange('name')}
+                  onBlur={props.handleBlur('name')}
+                  value={props.values.name}/>
                   <Text style={styles.titles}>
                   Email
                   </Text>
-                  <TextInput style={styles.input} placeholder={'Your Email'}/>
-                  <Text style={styles.titles}>
-                  Password
-                  </Text>
-                  <TextInput secureEntry={true} style={styles.input} placeholder={'Your Password'}/>
+                  <TextInput style={styles.input} placeholder={'Your Email'}
+                  onChangeText={props.handleChange('email')}
+                  onBlur={props.handleBlur('email')}
+                  value={props.values.email}     />
+                  <Text style={styles.titles}>Password</Text>
+                  <TextInput secureEntry={true} style={styles.input} placeholder={'Your Password'}
+                  onChangeText={props.handleChange('pass')}
+                  onBlur={props.handleBlur('pass')}
+                  value={props.values.pass}     />
                   </View>
             
-                  <>
-                  <TouchableOpacity >
-                  <View style={styles.register}>
+                  
+                  <TouchableOpacity onPress={props.handleSubmit}>
+                  <View style={styles.register} >
                   <Text style={{fontWeight:'bold',color:'white'}}>REGISTER NOW</Text>
                   </View>
                   </TouchableOpacity>
-            </>
+           
+             
             <View style={styles.forget}>
-                  <TouchableOpacity>
+                  <TouchableOpacity onPress={()=>{console.log(1)}}>
                   <Text>Forget Password?</Text>
                   </TouchableOpacity>
             </View>
@@ -60,7 +92,9 @@ return (
                              <Text style={{color:'white',fontWeight:'bold',marginStart:5,fontSize:11}}>Login With Facebook</Text></View>
                              </TouchableOpacity>
                  </View>
-                 
+                 </>
+                 )}
+               </Formik>
             </View>
             <View style={styles.bottom}>
                   <Text>Sign in with?</Text>
@@ -68,8 +102,8 @@ return (
                   <Text style={{color:'blue',fontWeight:'bold',marginStart:5}}>Phone Number</Text>
                   </TouchableOpacity>
             </View>
+            
             </View>
-           
       </View>
       );
 }
@@ -79,7 +113,8 @@ containers : {
       fontFamily: 'monospace',
       flex: 1,
       alignItems:'center',
-    height:'100%'
+      height:'100%',
+      width:'100%'
 },
 header: {
       fontWeight:'bold',
@@ -116,7 +151,7 @@ header: {
       width:'100%',
       backgroundColor: 'lightcoral', 
       borderBottomRightRadius:250,
-      borderBottomLeftRadius:10
+      borderBottomLeftRadius:0
     },
 contain: {
       
@@ -144,6 +179,7 @@ zIndex:1,
 },
 
 inneritems: {
+flex:1,
 backgroundColor:'#ededed',
 width:'95%',
 paddingHorizontal:10,

@@ -3,7 +3,7 @@ import React, {useState} from 'react';
 import { StyleSheet,View,Text,Image, FlatList} from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-export default function contact () {
+export default function contact (navigation) {
 const [people,setPeople] = useState([
       {name:'Alpha', time:'10:36 am',img:'./google-symbol,png',key:1},
       {name:'Beta', time:'10:36 am',img:'./google-symbol,png',key:2},
@@ -39,6 +39,7 @@ return (
       <Image style={{width:25,height:25}} source={require('./key.png')}/>
       </View>
       </TouchableOpacity>
+      <Text style={{color:'white',fontWeight:'bold',marginTop:5,fontSize:16}}>HOME SCREEN</Text>
       <TouchableOpacity>
       <View style={styles.btn}>
      <Image style={{width:30,height:30}} source={require('./plus.png')}/>
@@ -47,7 +48,7 @@ return (
       </View>
       <View style={styles.people}>
       <FlatList
-      keyExtractor={(item)=>item.key}
+      // keyExtractor={(item)=>item.key}
       data={people}
       renderItem={({item})=>(
       // Wrapper
