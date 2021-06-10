@@ -1,9 +1,24 @@
 import React from 'react';
-import { StyleSheet, Text, TextInput, TouchableOpacity, View, Image, Alert } from 'react-native';
+import { StyleSheet, Text, TextInput, TouchableOpacity, View, Image} from 'react-native';
 import 'react-native-gesture-handler';
-import {Formik} from 'formik'
+import {Formik} from 'formik';
+import * as yup from 'yup'
 
 export default function Main ({navigation}) {
+
+const loginValidationSchema = yup.object().shape({
+      name: yup
+      .string()
+      .required('Please enter your name'),
+      email:yup
+      .string()
+      .email('Email Format Incorrect')
+      .required('Please enter email'),
+      pass:yup
+      .string()
+      .min(8,({min})=>'Password too short')
+      .required('Password is required')
+});
 
 return (
       <View style={styles.containers}>
@@ -17,21 +32,23 @@ return (
             
             <View style={styles.inneritems}>
             <Formik
+            // validationSchema={loginValidationSchema}
             initialValues={{
                   name:'',
                   email:'',
                   pass:'',
             }}
             onSubmit={(values)=>{
-                  if(values.name === 'abc' && values.email == 'abc' && values.pass == 'abc')
-                  {
-                        navigation.navigate('Contacts');
-                        console.log('worked')
-                  }
-                  else
-                  {
-                        console.log("didn't work");
-                  }
+                  // if(values.name === 'abc' && values.email == 'abc' && values.pass == 'abc')
+                  // {
+                  //       navigation.navigate('Contacts');
+                  //       console.log('worked')
+                  // }
+                  // else
+                  // {
+                  //       console.log("didn't work");
+                  // }
+                  navigation.navigate('Slider');
             }}>
 
             {(props)=>(
@@ -45,18 +62,26 @@ return (
                   onChangeText={props.handleChange('name')}
                   onBlur={props.handleBlur('name')}
                   value={props.values.name}/>
+                  {(props.errors.name && props.touched.name) &&
+                  <Text style={styles.error}>{props.errors.name}</Text>}
                   <Text style={styles.titles}>
                   Email
                   </Text>
+                  
                   <TextInput style={styles.input} placeholder={'Your Email'}
                   onChangeText={props.handleChange('email')}
                   onBlur={props.handleBlur('email')}
                   value={props.values.email}     />
+            {(props.errors.email && props.touched.email) &&
+                  <Text style={styles.error}>{props.errors.email}</Text>
+            }
                   <Text style={styles.titles}>Password</Text>
                   <TextInput secureEntry={true} style={styles.input} placeholder={'Your Password'}
                   onChangeText={props.handleChange('pass')}
                   onBlur={props.handleBlur('pass')}
                   value={props.values.pass}     />
+                  {(props.errors.pass && props.touched.pass) &&
+                  <Text style={styles.error}>{props.errors.pass}</Text>}
                   </View>
             
                   
@@ -98,7 +123,7 @@ return (
             </View>
             <View style={styles.bottom}>
                   <Text>Sign in with?</Text>
-                  <TouchableOpacity>
+                  <TouchableOpacity onPress={()=>{navigation.navigate('details')}}>
                   <Text style={{color:'blue',fontWeight:'bold',marginStart:5}}>Phone Number</Text>
                   </TouchableOpacity>
             </View>
@@ -258,5 +283,10 @@ flexDirection:'row',
 position: 'absolute',
 top:800
 },
-
+error: {
+      color:'red',
+      fontSize:10,
+      alignSelf:'center',
+      marginBottom:-10
+}
 })

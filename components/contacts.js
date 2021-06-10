@@ -2,11 +2,14 @@ import { StatusBar } from 'expo-status-bar';
 import React, {useState} from 'react';
 import { StyleSheet,View,Text,Image, FlatList} from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import NEW from './new';
+import Collapsible from 'react-native-collapsible'
 
-export default function contact (navigation) {
+export default function contact (props) {
+      
 const [people,setPeople] = useState([
       {name:'Alpha', time:'10:36 am',img:'./google-symbol,png',key:1},
-      {name:'Beta', time:'10:36 am',img:'./google-symbol,png',key:2},
+      {name:'Beta',  time:'10:36 am',img:'./google-symbol,png',key:2},
       {name:'Gamma', time:'10:36 am',img:'./google-symbol,png',key:3},
       {name:'Delta', time:'10:36 am',img:'./google-symbol,png',key:4},
       {name:'Gamma', time:'10:36 am',img:'./google-symbol,png',key:5},
@@ -25,9 +28,13 @@ const [people,setPeople] = useState([
       {name:'Delta', time:'10:36 am',img:'./google-symbol,png',key:18},
       
 ]);
+const again = () => {
+      props.navigation.navigate('NEW')
+}
 const colorfunc = () => {
-      var ColorCode = 'rgb(' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ')';
-      return ColorCode;
+      var ColorCode = 'rgb(' + (Math.floor(Math.random() * (150))) + ',' + (Math.floor(Math.random() * 100)) +
+       ',' + (Math.floor(Math.random() * 100)) + ')';
+      return ColorCode.toString();
 }
 return (
 
@@ -40,7 +47,7 @@ return (
       </View>
       </TouchableOpacity>
       <Text style={{color:'white',fontWeight:'bold',marginTop:5,fontSize:16}}>HOME SCREEN</Text>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={()=>again()}>
       <View style={styles.btn}>
      <Image style={{width:30,height:30}} source={require('./plus.png')}/>
      </View>
